@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="be">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{{ page.title }} - qaǵıyda.com</title>
+    <link rel="stylesheet" href="/assets/css/main.css" />
+    <link rel="stylesheet" href="/assets/css/search.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400..500;1,400..500&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    {% include header.html %}
+
+    <main>{{ content }}</main>
+
+    {% include footer.html %}
+
+    <script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+    <script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
+    <script>
+      var client = algoliasearch('TRE8OMB1KR', '784e81093a7bb9b63469ecd64bac6ccc');
+      var index = client.initIndex('rules');
+      autocomplete(
+        '#search-input', {
+          hint: false,
+          debug: false,
+          minLength: 1,
+          openOnFocus: true,
+          keyboardShortcuts: ['s'],
+          templates: {
+            footer: '<div class="branding"><div class="wrapper"><a target="_blank" href="https://algolia.com"><img src="https://www.algolia.com/static_assets/images/press/downloads/algolia-logo-light.svg" /></a></div></div>'
+          }
+        }, [{
+          source: autocomplete.sources.hits(index, { hitsPerPage: 7 }),
+          displayKey: 'text',
+          templates: {
+            suggestion: function(suggestion) {
+              link = suggestion._snippetResult.link.value;
+              title = suggestion._snippetResult.title.value;
+              text = suggestion._snippetResult.text.value;
+              output = "<a href=\"" + link + "\"><h4>" + title + "</h4><p>" + text + "</p></a>"
+              return output;
+            }
+          }
+        }]);
+    </script>
+  </body>
+</html>
