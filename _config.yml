@@ -1,6 +1,4 @@
-sass:
-  style: compressed
-
 collections:
   rules:
     output: true
+    permalink: /:collection/:name/

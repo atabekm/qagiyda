@@ -11,3 +11,15 @@ layout: default
     </h1>
     {{ content }}
 </article>
+
+<nav>
+    {% if page.previous.url %}
+        <a href="{{page.previous.url}}" class="prev"><span>←</span>&nbsp;{{page.previous.title}}</a>
+    {% else %}
+        &nbsp;
+    {% endif %}
+
+    {% if page.next.url %}
+        <a href="{{page.next.url}}" class="next">{{page.next.title}}&nbsp;<span>→</span></a>
+    {% endif %}
+</nav>

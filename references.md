@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Derekler
+permalink: /references/
 ---
 
 ## Derekler
