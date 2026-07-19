@@ -9,7 +9,25 @@ layout: default
     <h1>
         {{ page.title }}
     </h1>
-    {{ content }}
+    {%- comment -%}
+      Hár bir abzatstıń aldına anker qoyamız, sonda izlew nátiyjesi tuwrıdan-tuwrı
+      sol abzatsqa alıp baradı. Bul jerdegi bóliw qaǵıydası search.json'daǵı menen
+      birdey bolıwı SHÁRT: '</p>' boyınsha bólip, teksti bos bloklardı taslaymız.
+      Ekewiniń biri ózgerse, ankerler menen izlew indeksleri bir-birine sáykes kelmey qaladı.
+      Sentinel (<!--e-->) content'tiń '</p>' menen tamamlanıw-tamamlanbawına
+      qaramastan bloklardı durıs qayta jıynaw ushın kerek.
+    {%- endcomment -%}
+    {%- assign blocks = content | append: '<!--e-->' | split: '</p>' -%}
+    {%- assign n = 0 -%}
+    {%- for block in blocks -%}
+      {%- assign text = block | strip_html | normalize_whitespace | strip -%}
+      {%- if text != '' -%}
+        <span class="p-anchor" id="p{{ n }}"></span>
+        {%- assign n = n | plus: 1 -%}
+      {%- endif -%}
+      {{- block | remove: '<!--e-->' -}}
+      {%- unless forloop.last %}</p>{% endunless -%}
+    {%- endfor -%}
 </article>
 
 <nav>

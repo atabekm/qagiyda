@@ -37,7 +37,11 @@
       .then(function (data) {
         docs = data.map(function (d) {
           var c = fold(d.c);
-          return { u: d.u, t: d.t, s: d.s, c: d.c, cf: c.folded, cm: c.map, tf: fold(d.t).folded };
+          return {
+            u: d.u, t: d.t, s: d.s, c: d.c,
+            href: d.u + '#p' + d.p,
+            cf: c.folded, cm: c.map, tf: fold(d.t).folded
+          };
         });
         return docs;
       })
@@ -124,7 +128,7 @@
     }
     list.innerHTML = hits.map(function (hit, i) {
       return '<li role="option" id="search-option-' + i + '">' +
-        '<a href="' + escapeHtml(hit.doc.u) + '">' +
+        '<a href="' + escapeHtml(hit.doc.href) + '">' +
         '<h4>' + escapeHtml(hit.doc.t) + '</h4>' +
         '<p>' + snippet(hit) + '</p>' +
         '</a></li>';
@@ -191,4 +195,30 @@
       input.focus();
     }
   });
+})();
+
+// Izlewden #pN silteme menen kelgende, sol abzatstı belgilep qoyamız.
+// Anker — bos <span>, sol sebepli keyingi ankerge shekemgi barlıq elementlerdi
+// belgileymiz (bir blok <ol> hám <p> siyaqlı bir neshe elementten turıwı múmkin).
+(function () {
+  function highlight() {
+    var previous = document.querySelectorAll('.p-target');
+    for (var i = 0; i < previous.length; i++) {
+      previous[i].classList.remove('p-target');
+    }
+
+    if (!/^#p\d+$/.test(location.hash)) return;
+
+    var anchor = document.getElementById(location.hash.slice(1));
+    if (!anchor || !anchor.classList.contains('p-anchor')) return;
+
+    var el = anchor.nextElementSibling;
+    while (el && !el.classList.contains('p-anchor')) {
+      el.classList.add('p-target');
+      el = el.nextElementSibling;
+    }
+  }
+
+  window.addEventListener('hashchange', highlight);
+  highlight();
 })();
