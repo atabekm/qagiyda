@@ -1,0 +1,23 @@
+---
+layout: null
+permalink: /search.json
+---
+{%- comment -%}
+  Hár bir abzats óz aldına jazba boladı. Bóliw qaǵıydası _layouts/post.html
+  daǵı menen birdey bolıwı SHÁRT ('</p>' boyınsha bóliw + bos bloklardı taslaw),
+  sebebi "p" maydanı sol jerdegi <span id="pN"> ankerine sáykes keledi.
+{%- endcomment -%}
+{% assign sep = '' %}[
+{%- for rule in site.rules -%}
+  {%- assign blocks = rule.content | split: '</p>' -%}
+  {%- assign n = 0 -%}
+  {%- for block in blocks -%}
+    {%- assign text = block | strip_html | normalize_whitespace | strip -%}
+    {%- if text != '' -%}
+{{ sep }}{"u":{{ rule.url | jsonify }},"p":{{ n }},"t":{{ rule.title | jsonify }},"s":{{ rule.chapter | default: rule.section | jsonify }},"c":{{ text | jsonify }}}
+      {%- assign n = n | plus: 1 -%}
+      {%- assign sep = ',' -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endfor -%}
+]

@@ -2,6 +2,3 @@ collections:
   rules:
     output: true
     permalink: /:collection/:name/
-
-plugins:
-  - jekyll-algolia

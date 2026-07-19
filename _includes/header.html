@@ -3,7 +3,12 @@
     <a href="/">qaǵıyda.com</a><br/>
     <span>qaraqalpaq tiliniń qaǵıydaları</span>
   </div>
-  <input type="text" id="search-input" placeholder="Qaǵıydalar boyınsha izlew..." />
+  <div class="search">
+    <input type="text" id="search-input" placeholder="Qaǵıydalar boyınsha izlew..."
+           autocomplete="off" role="combobox" aria-expanded="false"
+           aria-controls="search-results" aria-autocomplete="list" />
+    <ul id="search-results" role="listbox" hidden></ul>
+  </div>
   <nav>
     <menu>
       <li>
