@@ -1,0 +1,16 @@
+---
+layout: null
+permalink: /search.json
+---
+{% assign sep = '' %}[
+{%- for rule in site.rules -%}
+  {%- assign blocks = rule.content | split: '</p>' -%}
+  {%- for block in blocks -%}
+    {%- assign text = block | strip_html | normalize_whitespace | strip -%}
+    {%- if text != '' -%}
+{{ sep }}{"u":{{ rule.url | jsonify }},"t":{{ rule.title | jsonify }},"s":{{ rule.chapter | default: rule.section | jsonify }},"c":{{ text | jsonify }}}
+      {%- assign sep = ',' -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endfor -%}
+]
